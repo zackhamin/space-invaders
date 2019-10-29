@@ -1,0 +1,9 @@
+.xwing{
+    background-size: 200 200px;
+    background-image: url();
+    background-size:contain;
+    height: 300px;
+    width: 300px;
+    position: relative;
+ 
+}
