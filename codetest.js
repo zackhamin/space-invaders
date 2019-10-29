@@ -5,10 +5,11 @@ function startGame() {
     myGameArea.start();
 }
 
+// This variable and function is for the size of the game play area.
 var myGameArea = {
     canvas : document.createElement("canvas"),
     start : function() {
-
+        
         this.canvas.width = 1000;
         this.canvas.height = 500;
         this.context = this.canvas.getContext("2d");
@@ -24,8 +25,10 @@ var myGameArea = {
     clear : function(){
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
+
 }
 
+// This function relates to the ship size, image and height.
 function component(width, height, color, x, y, type) {
     this.type = type;
     if (type == "image") {
@@ -56,14 +59,41 @@ function component(width, height, color, x, y, type) {
     }
 }
 
+// This function sets the boundaries the ship cannot pass. 1st one is the left boundary, 
+// 2nd one is the right boundary, 3rd one is the bottom boundary.
+var rightBorder = canvas.width - myGamePiece.width;
+
+function playerBounds() {
+    if (myGamePiece.x < 0) {
+        myGamePiece.x = 0;
+    }
+    if (myGamePiece.x > 930) {
+        myGamePiece.x = 930;
+    }
+    if (myGamePiece.y > 430) {
+        myGamePiece.y = 430;
+    }
+}
+
+    // if (myGamePiece.x > rightBorder) {
+    //     myGamePiece.x = rightBorder;
+    // }
+
+
+
+
+    // These functions are for the ship movement and speed.
 function updateGameArea() {
     myGameArea.clear();
     myGamePiece.speedX = 0;
     myGamePiece.speedY = 0;    
-    if (myGameArea.key && myGameArea.key == 37) {myGamePiece.speedX = -1; }
-    if (myGameArea.key && myGameArea.key == 39) {myGamePiece.speedX = 1; }
-    if (myGameArea.key && myGameArea.key == 38) {myGamePiece.speedY = -1; }
-    if (myGameArea.key && myGameArea.key == 40) {myGamePiece.speedY = 1; }
+    if (myGameArea.key && myGameArea.key == 37) {myGamePiece.speedX = -4; }
+    if (myGameArea.key && myGameArea.key == 39) {myGamePiece.speedX = 4; }
+    if (myGameArea.key && myGameArea.key == 38) {myGamePiece.speedY = -4; }
+    if (myGameArea.key && myGameArea.key == 40) {myGamePiece.speedY = 4; }
+    
     myGamePiece.newPos();    
     myGamePiece.update();
+    playerBounds();
+
 }
