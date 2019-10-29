@@ -1,15 +1,16 @@
-var xWing;
+var myGamePiece;
 
 function startGame() {
+    myGamePiece = new component(80, 80, "mfalcon.png", 500, 420, "image");
     myGameArea.start();
-    xWing = new component  (50,50,'xwings.png' , 500, 550, 'image');
 }
+
 var myGameArea = {
     canvas : document.createElement("canvas"),
     start : function() {
 
         this.canvas.width = 1000;
-        this.canvas.height = 600;
+        this.canvas.height = 500;
         this.context = this.canvas.getContext("2d");
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
         this.interval = setInterval(updateGameArea, 20);
@@ -24,8 +25,13 @@ var myGameArea = {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 }
+
 function component(width, height, color, x, y, type) {
-    this.gamearea = myGameArea;
+    this.type = type;
+    if (type == "image") {
+        this.image = new Image();
+        this.image.src = color;
+    }
     this.width = width;
     this.height = height;
     this.speedX = 0;
@@ -34,23 +40,30 @@ function component(width, height, color, x, y, type) {
     this.y = y;    
     this.update = function() {
         ctx = myGameArea.context;
-        ctx.fillStyle = color;
-        ctx.fillRect(this.x, this.y, this.width, this.height);
+        if (type == "image") {
+            ctx.drawImage(this.image, 
+                this.x, 
+                this.y,
+                this.width, this.height);
+        } else {
+            ctx.fillStyle = color;
+            ctx.fillRect(this.x, this.y, this.width, this.height);
+        }
     }
     this.newPos = function() {
         this.x += this.speedX;
         this.y += this.speedY;        
     }
 }
+
 function updateGameArea() {
     myGameArea.clear();
-    xWing.speedX = 0;
-    xWing.speedY = 0;    
-    if (myGameArea.key && myGameArea.key == 37) {xWing.speedX = -1; }
-    if (myGameArea.key && myGameArea.key == 39) {xWing.speedX = 1; }
-    if (myGameArea.key && myGameArea.key == 38) {xWing.speedY = -1; }
-    if (myGameArea.key && myGameArea.key == 40) {xWing.speedY = 1; }
-    xWing.newPos();    
-    xWing.update();
+    myGamePiece.speedX = 0;
+    myGamePiece.speedY = 0;    
+    if (myGameArea.key && myGameArea.key == 37) {myGamePiece.speedX = -1; }
+    if (myGameArea.key && myGameArea.key == 39) {myGamePiece.speedX = 1; }
+    if (myGameArea.key && myGameArea.key == 38) {myGamePiece.speedY = -1; }
+    if (myGameArea.key && myGameArea.key == 40) {myGamePiece.speedY = 1; }
+    myGamePiece.newPos();    
+    myGamePiece.update();
 }
-
